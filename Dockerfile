@@ -1,4 +1,3 @@
-# Stage 1: Build the React frontend
 FROM node:20-alpine AS frontend-build
 
 WORKDIR /app/frontend
@@ -7,7 +6,6 @@ RUN npm install
 COPY frontend/ ./
 RUN npm run build
 
-# Stage 2: Production backend
 FROM node:20-alpine
 
 WORKDIR /app
@@ -17,7 +15,6 @@ RUN npm install --omit=dev
 
 COPY backend/ ./
 
-# Copy the built frontend into the backend's public folder
 COPY --from=frontend-build /app/frontend/dist ./public
 
 EXPOSE 5000
